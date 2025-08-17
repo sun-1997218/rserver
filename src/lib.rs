@@ -52,7 +52,9 @@ impl Rserver{
         // 简单的连接接受循环
         loop {
             // 清理已完成的连接
-            while join_set.try_join_next().is_some() {}
+            while join_set.try_join_next().is_some() {
+                tracing::info!("join_set_next {} closed", addr);
+            }
             match listener.accept().await {
                 Ok((stream, addr)) => {
                     tracing::info!("New connection from {}", addr);
